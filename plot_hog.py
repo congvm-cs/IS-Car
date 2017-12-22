@@ -82,29 +82,36 @@ References
 import matplotlib.pyplot as plt
 import cv2
 from skimage.feature import hog
-from skimage import data, color, exposure
+from src.load_file import load_image
+import pickle
+
+dir = "/media/vmc/Data/VMC/Workspace/IS-Car/Images"
 
 
-# image = cv2.imread('car_lincense.png')
-image = cv2.imread('00007_00014.ppm')
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-image = cv2.resize(image, (128, 128))
 
-image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-fd, hog_image = hog(image, orientations=9, pixels_per_cell=(8, 8),cells_per_block=(2, 2), visualise = True)
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
-print(fd.shape)
-ax1.axis('off')
-ax1.imshow(image, cmap=plt.cm.gray)
-ax1.set_title('Input image')
-ax1.set_adjustable('box-forced')
+def hog_compute(images):
+    image_arr = []
+    # labels_arr = []
 
-# Rescale histogram for better display
-# hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 0.02))
+    for image in images:
+        # print(image)
+        img = cv2.imread(image)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.resize(img, (128, 128))
 
-ax2.axis('off')
-ax2.imshow(hog_image, cmap=plt.cm.gray)
-ax2.set_title('Histogram of Oriented Gradients')
-ax1.set_adjustable('box-forced')
-plt.show()
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+        cv2.imshow("dd", img)
+        cv2.waitKey(0)
+        fd, hog_image = hog(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2), visualise = True)
+
+        image_arr.append(hog_image)
+    return image_arr
+
+
+
+images, labels = load_image(dir)
+image_arr = hog_compute(images)
+
+pickle.dump(zip(image_arr, labels), "dataset.sav")
