@@ -1,18 +1,18 @@
-#IS-Car
+# IS-Car
 This is ISLab Autonomous Car from UTE
 
-###Distributor:
+### Distributor:
 - Cong Vo
 - Dong Do 
 - Vu Dang
 - Anh Tran
 
 
-###Technology:
+### Technology:
 - **Dataset**: http://benchmark.ini.rub.de/?section=gtsdb&subsection=dataset
 - **HOG**
 - **SVM**
 
 
-###Results:
+### Results:
 *On process...*
