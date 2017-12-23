@@ -2,7 +2,7 @@
 This is ISLab Autonomous Car from UTE
 
 ### Distributor:
-- Cong Vo
+- Cong Vo - Team Leader
 - Dong Do 
 - Vu Dang
 - Anh Tran
