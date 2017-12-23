@@ -3,8 +3,31 @@ import cv2
 from skimage.feature import hog
 
 
-def load_image(dataset_dir):
-    print("Loading Image")
+def load_data_from_txt(dataset_dir):
+    print("Loading data from txt...")
+    data = []
+    labels = []
+    data_temp = []
+
+    labels_name = os.listdir(dataset_dir)
+    for label in labels_name:
+        label_path = os.path.join(dataset_dir, label)
+        for txt_filename in os.listdir(label_path):
+            if os.path.splitext(txt_filename)[1] == '.txt':
+                txt_path = os.path.join(label_path, txt_filename)
+
+                # READ ALL DATA FROM TXT
+                data_temp.clear()
+                with open(txt_path, 'r') as file:
+                    for line in file:
+                        data_temp.extend(line.splitlines())
+
+                data.append(data_temp)
+                labels.append(label)
+    return data, labels
+
+def load_images_and_labels(dataset_dir):
+    print("Loading Image...")
     image_path = []
     labels = []
 
@@ -19,7 +42,7 @@ def load_image(dataset_dir):
 
 
 def hog_compute(images):
-    print("Compute HOG")
+    print("Compute HOG...")
     image_arr = []
     for image in images:
         img = cv2.imread(image)
