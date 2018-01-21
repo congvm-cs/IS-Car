@@ -1,7 +1,7 @@
 import os
 import cv2
 from skimage.feature import hog
-
+import numpy as np
 
 def load_data_from_txt(dataset_dir):
     print("Loading data from txt...")
