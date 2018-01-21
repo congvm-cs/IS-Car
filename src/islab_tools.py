@@ -36,7 +36,8 @@ def load_images_and_labels(dataset_dir):
         label_path = os.path.join(dataset_dir, label)
         for image_filename in os.listdir(label_path):
             if os.path.splitext(image_filename)[1] != '.csv':
-                images.append(cv2.imread(image_path.append(os.path.join(label_path, image_filename))))
+                img = cv2.imread(os.path.join(label_path, image_filename))
+                images.append(img)
                 
                 labels.append(label)
     return images, labels
