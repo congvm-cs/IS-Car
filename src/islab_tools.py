@@ -26,9 +26,8 @@ def load_data_from_txt(dataset_dir):
                 labels.append(label)
     return data, labels
 
-def load_images_and_labels(dataset_dir):
+def load_images_and_labels(dataset_dir, new_size = [64, 64]):
     print("Loading Image...")
-    image_path = []
     labels = []
     images = []
     labels_name = os.listdir(dataset_dir)
@@ -37,11 +36,12 @@ def load_images_and_labels(dataset_dir):
         for image_filename in os.listdir(label_path):
             if os.path.splitext(image_filename)[1] != '.csv':
                 img = cv2.imread(os.path.join(label_path, image_filename))
+                img = cv2.resize(img, (new_size[0], new_size[1]))
                 images.append(img)
-                
                 labels.append(label)
+    images = np.array(images)
+    labels = np.array(labels)
     return images, labels
-
 
 def hog_compute(images):
     print("Compute HOG...")
