@@ -30,15 +30,16 @@ def load_images_and_labels(dataset_dir):
     print("Loading Image...")
     image_path = []
     labels = []
-
+    images = []
     labels_name = os.listdir(dataset_dir)
     for label in labels_name:
         label_path = os.path.join(dataset_dir, label)
         for image_filename in os.listdir(label_path):
             if os.path.splitext(image_filename)[1] != '.csv':
-                image_path.append(os.path.join(label_path, image_filename))
+                images.append(cv2.imread(image_path.append(os.path.join(label_path, image_filename))))
+                
                 labels.append(label)
-    return image_path, labels
+    return images, labels
 
 
 def hog_compute(images):
