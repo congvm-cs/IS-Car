@@ -2,55 +2,56 @@ import cv2
 import time
 import numpy as np
 from keras.models import load_model
-model = load_model('D:\\Research\\Autonomous Car\\Models\\40Sign_Model.h5py')
+model = load_model('D:\\Research\\Autonomous Car\\Models\\model.h5')
 
-img_sample = cv2.imread('40a.jpg')
+img_sample = cv2.imread('C:\\Users\\Win 8.1 VS8 X64\\Desktop\\stopb.jpg')
 img1 = cv2.resize(img_sample,(640, 480))
 
-m = img1.shape[0]
-n = img1.shape[1]
-
-m = int(m)
-n = int(n)
-
-print(m)
-print(n)
-
-img2 = cv2.resize(img1, (int(n*3/4), int(m*3/4)))
-img3 = cv2.resize(img1, (int(n/2), int(m/2)))
+# m = img1.shape[0]
+# n = img1.shape[1]
+#
+# m = int(m)
+# n = int(n)
+#
+# print(m)
+# print(n)
+#
+# img2 = cv2.resize(img1, (int(n*3/4), int(m*3/4)))
+# img3 = cv2.resize(img1, (int(n/2), int(m/2)))
 
 x=0
 y=0
 
-WinH = 100
-WinW = 100
+WinH = 0
+WinW = 0
 Stride = 50
 
 print(img1.shape[0])
 print(img1.shape[1])
 
 # i=1
-max = 0.5
+max = 0
+img = img1.copy()
 
-# img = img1.copy()
-# while 1:
-# if i == 1:
-#     img = img1.copy()
-# if i == 2:
-#     img = img2.copy()
-# if i == 3:
-#     img = img3.copy()
-for i in range(3):
-    for y in range(0, img1.shape[0]-3*WinW, Stride):
-        for x in range(0, img1.shape[1]-3*WinH, Stride):
-            # img = img1.copy()
-            if i == 0:
-                img = img1.copy()
-            if i == 1:
-                img = img2.copy()
-            if i == 2:
-                img = img3.copy()
-
+for i in range(4):
+    # if i == 0:
+    #     WinH = 250
+    #     WinW = 250
+    if i == 0:
+        WinH = 200
+        WinW = 200
+    if i == 1:
+        WinH = 150
+        WinW = 150
+    if i == 2:
+        WinH = 100
+        WinW = 100
+    if i == 3:
+        WinH = 50
+        WinW = 50
+    for y in range(0, img.shape[0]-WinW, Stride):
+        for x in range(0, img.shape[1]-WinH, Stride):
+            img = img1.copy()
             imgr = cv2.rectangle(img, (x, y), (x + WinH, y + WinW), (0, 255, 0), 2)
             cv2.imshow('image', imgr)
 
@@ -65,11 +66,12 @@ for i in range(3):
             stop1 = stop[0]
             # print(stop1[0])
 
-            if stop1[0] > max:
-                max = stop1[0]
+            if stop1[1] > max:
+                max = stop1[1]
                 # print(x, y, x + WinW, y + WinH)
                 q = y
                 w = x
+                size_Win = WinH
                 print(max)
 
             #prediction = np.argmax(model.predict(x))
@@ -78,9 +80,12 @@ for i in range(3):
     i = i + 1
 
 print(max)
-print(w, q, w + WinW, q + WinH)
-crop_img1 = img[q:q + WinH, w:w + WinW]
+print(w, q, w + size_Win, q + size_Win)
+crop_img1 = img[q:q + size_Win, w:w + size_Win]
 cv2.imshow("cropped1", crop_img1)
+
+bounding = cv2.rectangle(img1, (w, q), (w + size_Win, q + size_Win), (0, 255, 0), 2)
+cv2.imshow('bounding box', bounding)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 '''
